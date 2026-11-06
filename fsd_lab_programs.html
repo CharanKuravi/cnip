@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FSD Lab Programs (Experiments 1-15)</title>
+<style>
+:root{--bg:#fff;--fg:#1d2330;--mut:#5b6475;--card:#f4f6fa;--code:#0f172a;--codefg:#e2e8f0;--ac:#2f6fed;--bd:#d9dee8}
+@media (prefers-color-scheme:dark){:root{--bg:#10131a;--fg:#e6e9f0;--mut:#9aa3b5;--card:#181c26;--code:#0a0d13;--codefg:#dbe2ef;--ac:#7aa2ff;--bd:#2a3040}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;padding:16px;max-width:900px;margin:auto}
+h1{font-size:1.5rem;margin:.5rem 0}
+h2{font-size:1.2rem;margin:2rem 0 .3rem;padding-top:.8rem;border-top:2px solid var(--ac);color:var(--ac)}
+h3{font-size:1rem;margin:1.2rem 0 .3rem}
+.run{background:var(--card);border-left:4px solid var(--ac);padding:8px 12px;margin:.4rem 0;font-size:.9rem;color:var(--mut);border-radius:4px}
+.run b{color:var(--fg)}
+.blk{margin:.4rem 0 1rem;border:1px solid var(--bd);border-radius:8px;overflow:hidden}
+.hd{display:flex;justify-content:space-between;align-items:center;background:var(--card);padding:6px 10px;font:600 .8rem monospace}
+.hd button{background:var(--ac);color:#fff;border:0;border-radius:5px;padding:4px 10px;font-size:.75rem;cursor:pointer}
+pre{margin:0;padding:12px;background:var(--code);color:var(--codefg);overflow-x:auto;font:13px/1.45 ui-monospace,Menlo,Consolas,monospace}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin:.6rem 0}
+nav a{background:var(--card);border:1px solid var(--bd);color:var(--fg);padding:3px 9px;border-radius:14px;text-decoration:none;font-size:.8rem}
+.note{color:var(--mut);font-size:.9rem}
+.exp{display:none}.exp.on{display:block}
+nav a.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+h3.tg{cursor:pointer;background:var(--card);border:1px solid var(--ac);border-radius:8px;padding:10px 12px;display:flex;justify-content:space-between;gap:8px;user-select:none}
+h3.tg::after{content:"Show code \25BC";color:var(--ac);font-size:.75rem;white-space:nowrap;align-self:center}
+h3.tg.open::after{content:"Hide code \25B2"}
+.blk.hide{display:none}
+.info{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:8px 12px;margin:.3rem 0;font-size:.9rem}
+.info p{margin:0 0 .3rem}.info ol{margin:0;padding-left:1.2rem}
+.info b{color:var(--ac)}
+#gate{position:fixed;inset:0;z-index:99;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px}
+#gate div{background:var(--card);border:2px solid var(--ac);border-radius:12px;padding:22px;max-width:420px;text-align:center}
+#gate label{display:flex;gap:10px;align-items:center;justify-content:center;font-weight:600;cursor:pointer;margin:14px 0;text-align:left}
+#gate input{width:22px;height:22px;flex:none}
+#gate button{background:var(--ac);color:#fff;border:0;border-radius:6px;padding:8px 20px;font-size:1rem;cursor:pointer}
+#gate button:disabled{opacity:.4;cursor:not-allowed}
+</style>
+</head>
+<body>
+<div id="gate"><div>
+<h2 style="border:0;margin:0;padding:0">Before you begin</h2>
+<label><input type="checkbox" id="gchk"> Make sure to buy puff &amp; coke for the developer</label>
+<button id="gbtn" disabled>Open lab programs</button>
+</div></div>
+<h1>Full Stack Development Lab: All Programs</h1>
+<p class="note">Each program lists the file name, the exact command to compile/run it, and the code. Tap <b>Copy</b> to copy any code block. Prerequisites: Node.js 18+, Git, MySQL 8, a browser (Chrome) and VS Code.</p>
+<nav id="nav"></nav>
+
+<h2 id="e1">Experiment 1: JavaScript and the DOM (basics)</h2>
+<p class="run"><b>Run:</b> save both files in one folder, then open <code>index.html</code> in Chrome (or VS Code Live Server). Press F12, Console tab, to see output.</p>
+<h3>Setup file for 1.1, 1.2, 1.3</h3>
+<script type="text/plain" data-f="index.html">
+<!DOCTYPE html>
+<html>
+<head><title>DOM Basics</title></head>
+<body>
+  <h1 id="title">Hello DOM</h1>
+  <p class="msg">Paragraph one</p>
+  <p class="msg">Paragraph two</p>
+  <button id="btn">Click me</button>
+  <script src="script.js"><\/script>
+</body>
+</html>
+</script>
+<h3>1.1 Link a JavaScript file with the HTML page</h3>
+<script type="text/plain" data-f="script.js (part 1)">
+console.log("script.js is linked successfully");
+document.getElementById("title").innerText = "JS file linked!";
+</script>
+<h3>1.2 Select elements using selectors</h3>
+<script type="text/plain" data-f="script.js (part 2)">
+const byId = document.getElementById("title");
+const byClass = document.getElementsByClassName("msg");
+const byTag = document.getElementsByTagName("p");
+const one = document.querySelector(".msg");
+const all = document.querySelectorAll(".msg");
+console.log(byId.innerText, byClass.length, byTag.length, one.innerText, all.length);
+all.forEach(p => p.style.color = "blue");
+</script>
+<h3>1.3 Event listeners</h3>
+<script type="text/plain" data-f="script.js (part 3)">
+const btn = document.getElementById("btn");
+btn.addEventListener("click", () => alert("Button clicked"));
+btn.addEventListener("mouseover", () => btn.style.background = "lightgreen");
+btn.addEventListener("mouseout", () => btn.style.background = "");
+document.addEventListener("keydown", e => console.log("Key pressed:", e.key));
+</script>
+
+<h2 id="e2">Experiment 2: Click events and functions</h2>
+<p class="run"><b>Run:</b> open <code>index.html</code> in the browser. To run only the functions in Node: <code>node functions.js</code></p>
+<h3>2.1 Click events for button elements</h3>
+<script type="text/plain" data-f="index.html">
+<!DOCTYPE html>
+<html>
+<body>
+  <button onclick="sayHi()">Inline onclick</button>
+  <button id="b2">addEventListener</button>
+  <p id="out"></p>
+  <script>
+    function sayHi(){ document.getElementById("out").innerText = "Inline click handled"; }
+    document.getElementById("b2").addEventListener("click", function(){
+      document.getElementById("out").innerText = "Listener click handled";
+    });
+  <\/script>
+</body>
+</html>
+</script>
+<h3>2.2 Three types of functions</h3>
+<script type="text/plain" data-f="functions.js">
+// (i) Function declaration
+function add(a, b) { return a + b; }
+console.log("Declaration:", add(2, 3));
+
+// (ii) Function definition (expression)
+const multiply = function (a, b) { return a * b; };
+console.log("Expression:", multiply(2, 3));
+
+// (iii) Arrow function
+const square = n => n * n;
+console.log("Arrow:", square(4));
+</script>
+
+<h2 id="e3">Experiment 3: React class and functional components</h2>
+<p class="run"><b>Create project (once, reused for Experiments 3 to 6):</b><br>
+<code>npm create vite@latest myapp -- --template react</code><br>
+<code>cd myapp</code> then <code>npm install</code> then <code>npm run dev</code> (open the shown localhost URL).<br>
+Alternative (as in the manual): <code>npx create-react-app myapp</code> then <code>npm start</code>. Replace <code>src/App.jsx</code> (or <code>App.js</code>) with each program below.</p>
+<h3>3.1 Counter using a class component</h3>
+<script type="text/plain" data-f="src/App.jsx">
+import React from "react";
+
+class Counter extends React.Component {
+  constructor(props) { super(props); this.state = { count: 0 }; }
+  render() {
+    return (
+      <div>
+        <h2>Class Counter: {this.state.count}</h2>
+        <button onClick={() => this.setState({ count: this.state.count + 1 })}>Increment</button>
+      </div>
+    );
+  }
+}
+export default Counter;
+</script>
+<h3>3.2 Counter using a functional component</h3>
+<script type="text/plain" data-f="src/App.jsx">
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <h2>Functional Counter: {count}</h2>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+export default Counter;
+</script>
+
+<h2 id="e4">Experiment 4: Events, conditional rendering and string literals</h2>
+<p class="run"><b>Run:</b> in <code>myapp</code>: <code>npm run dev</code>. Replace <code>src/App.jsx</code> with each program.</p>
+<h3>4.1 Button click event</h3>
+<script type="text/plain" data-f="src/App.jsx">
+function App() {
+  const handleClick = () => alert("Button clicked!");
+  return <button onClick={handleClick}>Click Me</button>;
+}
+export default App;
+</script>
+<h3>4.2 Conditional rendering</h3>
+<script type="text/plain" data-f="src/App.jsx">
+import { useState } from "react";
+
+function Welcome() { return <h2>Welcome back!</h2>; }
+function Login() { return <h2>Please log in.</h2>; }
+
+function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  return (
+    <div>
+      {loggedIn ? <Welcome /> : <Login />}
+      <button onClick={() => setLoggedIn(!loggedIn)}>
+        {loggedIn ? "Logout" : "Login"}
+      </button>
+    </div>
+  );
+}
+export default App;
+</script>
+<h3>4.3 Display text using string literals</h3>
+<script type="text/plain" data-f="src/App.jsx">
+function App() {
+  const name = "Ravi";
+  const age = 20;
+  return <h2>{`Hello ${name}, you are ${age} years old. Next year: ${age + 1}`}</h2>;
+}
+export default App;
+</script>
+
+<h2 id="e5">Experiment 5: React hooks</h2>
+<p class="run"><b>Run:</b> <code>npm run dev</code> inside <code>myapp</code> (needs internet for 5.2).</p>
+<h3>5.1 Counter using useState</h3>
+<script type="text/plain" data-f="src/App.jsx">
+import { useState } from "react";
+
+function App() {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <h2>Count: {count}</h2>
+      <button onClick={() => setCount(count + 1)}>+</button>
+      <button onClick={() => setCount(count - 1)}>-</button>
+      <button onClick={() => setCount(0)}>Reset</button>
+    </div>
+  );
+}
+export default App;
+</script>
+<h3>5.2 Fetch data from an API using useEffect</h3>
+<script type="text/plain" data-f="src/App.jsx">
+import { useState, useEffect } from "react";
+
+function App() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then(res => res.json())
+      .then(data => { setUsers(data); setLoading(false); })
+      .catch(err => { console.error(err); setLoading(false); });
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  return (
+    <ul>
+      {users.map(u => <li key={u.id}>{u.name} ({u.email})</li>)}
+    </ul>
+  );
+}
+export default App;
+</script>
+
+<h2 id="e6">Experiment 6: Props, forms and lists</h2>
+<p class="run"><b>Run:</b> <code>npm run dev</code> inside <code>myapp</code>.</p>
+<h3>6.1 Two components sharing data using props</h3>
+<script type="text/plain" data-f="src/App.jsx">
+function Child({ name, course }) {
+  return <p>Student: {name}, Course: {course}</p>;
+}
+
+function App() {
+  return (
+    <div>
+      <h2>Parent Component</h2>
+      <Child name="Asha" course="Full Stack" />
+      <Child name="Ravi" course="React" />
+    </div>
+  );
+}
+export default App;
+</script>
+<h3>6.2 Forms in React</h3>
+<script type="text/plain" data-f="src/App.jsx">
+import { useState } from "react";
+
+function App() {
+  const [form, setForm] = useState({ name: "", email: "" });
+  const [submitted, setSubmitted] = useState(null);
+
+  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleSubmit = e => { e.preventDefault(); setSubmitted(form); };
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input name="name" placeholder="Name" value={form.name} onChange={handleChange} />
+        <input name="email" placeholder="Email" value={form.email} onChange={handleChange} />
+        <button type="submit">Submit</button>
+      </form>
+      {submitted && <p>Submitted: {submitted.name}, {submitted.email}</p>}
+    </div>
+  );
+}
+export default App;
+</script>
+<h3>6.3 Iterative rendering using map()</h3>
+<script type="text/plain" data-f="src/App.jsx">
+function App() {
+  const fruits = ["Apple", "Banana", "Mango", "Orange"];
+  return (
+    <ul>
+      {fruits.map((f, i) => <li key={i}>{f}</li>)}
+    </ul>
+  );
+}
+export default App;
+</script>
+
+<h2 id="e7">Experiment 7: Git and GitHub (setup and basic workflow)</h2>
+<p class="run"><b>Run:</b> in Terminal / Git Bash. Install Git from git-scm.com. Create an empty repo on github.com first. For the password, use a Personal Access Token (GitHub, Settings, Developer settings, Tokens).</p>
+<h3>7.1 Setup</h3>
+<script type="text/plain" data-f="Git Bash / Terminal">
+git --version
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+git config --list
+</script>
+<h3>7.2 Basic workflow</h3>
+<script type="text/plain" data-f="Git Bash / Terminal">
+mkdir myproject && cd myproject
+git init
+echo "# My Project" > README.md
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/<username>/<repo>.git
+git push -u origin main
+# Username: your GitHub username | Password: your personal access token
+</script>
+
+<h2 id="e8">Experiment 8: Branching and collaboration</h2>
+<p class="run"><b>Run:</b> inside the repository from Experiment 7.</p>
+<h3>8.1 and 8.2 Create a branch and merge it into main</h3>
+<script type="text/plain" data-f="Git Bash / Terminal">
+git checkout -b feature1
+echo "Feature 1 code" > feature1.txt
+git add . && git commit -m "Add feature1"
+git checkout main
+git merge feature1
+git branch
+</script>
+<h3>8.3 Resolve a merge conflict (guided)</h3>
+<script type="text/plain" data-f="Git Bash / Terminal">
+echo "Line from main" > conflict.txt
+git add . && git commit -m "main change"
+git checkout -b feature2 HEAD~1
+echo "Line from feature2" > conflict.txt
+git add . && git commit -m "feature2 change"
+git checkout main
+git merge feature2          # CONFLICT reported
+git status                  # shows conflict.txt as "both added"
+
+# Open conflict.txt, you will see:
+# <<<<<<< HEAD
+# Line from main
+# =======
+# Line from feature2
+# >>>>>>> feature2
+# Edit the file: keep the lines you want and delete the markers.
+
+git add conflict.txt
+git commit -m "Resolve merge conflict"
+</script>
+
+<h2 id="e9">Experiment 9: Uploading a React project to GitHub</h2>
+<p class="run"><b>Run:</b> Terminal. Create an empty GitHub repo named <code>myapp</code> first.</p>
+<h3>9.1 to 9.4 Create app, push, .gitignore and branches</h3>
+<script type="text/plain" data-f="Git Bash / Terminal">
+npx create-react-app myapp        # or: npm create vite@latest myapp -- --template react
+cd myapp
+cat .gitignore                    # node_modules/ is already listed; otherwise add it:
+echo "node_modules/" >> .gitignore
+
+git init
+git add .
+git commit -m "Initial React app"
+git branch -M main
+git remote add origin https://github.com/<username>/myapp.git
+git push -u origin main
+
+git checkout -b feature/navbar
+git push -u origin feature/navbar
+git checkout main
+git checkout -b feature/form
+git push -u origin feature/form
+</script>
+<h3>9.5 Merge and pull requests (GitHub GUI)</h3>
+<script type="text/plain" data-f="Steps">
+1. Make a change on feature/navbar, then: git add . && git commit -m "Add navbar" && git push
+2. On GitHub open the repo, click "Compare & pull request", then "Create pull request".
+3. Review the changes, click "Merge pull request", then "Confirm merge".
+4. Update your local copy:  git checkout main && git pull origin main
+5. Repeat for feature/form.
+</script>
+
+<h2 id="e10">Experiment 10: Node.js and Express (routing)</h2>
+<p class="run"><b>Setup once:</b> <code>mkdir expressapp && cd expressapp</code>, <code>npm init -y</code>, <code>npm install express</code><br>
+<b>Run:</b> <code>node server.js</code> then open <code>http://localhost:3000</code> in the browser. Stop with Ctrl+C.</p>
+<h3>10.1 "Hello World" route</h3>
+<script type="text/plain" data-f="server.js">
+const express = require("express");
+const app = express();
+
+app.get("/", (req, res) => res.send("Hello World"));
+
+app.listen(3000, () => console.log("Server running at http://localhost:3000"));
+</script>
+<h3>10.2 Small website with multiple routes</h3>
+<script type="text/plain" data-f="server.js">
+const express = require("express");
+const app = express();
+
+app.get("/", (req, res) => res.send("<h1>Home</h1><a href='/about'>About</a> | <a href='/contact'>Contact</a>"));
+app.get("/about", (req, res) => res.send("<h1>About Us</h1>"));
+app.get("/contact", (req, res) => res.send("<h1>Contact: info@example.com</h1>"));
+app.use((req, res) => res.status(404).send("<h1>404 Page Not Found</h1>"));
+
+app.listen(3000, () => console.log("Running on port 3000"));
+</script>
+<h3>10.3 Print "Hello World" in the browser console</h3>
+<script type="text/plain" data-f="server.js">
+const express = require("express");
+const app = express();
+
+app.get("/", (req, res) => {
+  res.send("<h1>Open the browser console (F12)</h1><script>console.log('Hello World');<\/script>");
+});
+
+app.listen(3000, () => console.log("Running on port 3000"));
+</script>
+
+<h2 id="e11">Experiment 11: Express CRUD and database connection</h2>
+<p class="run"><b>Setup:</b> <code>npm install express mysql2</code><br>
+<b>Run:</b> <code>node server.js</code>. Test with Postman or curl, e.g. <code>curl -X POST localhost:3000/items -H "Content-Type: application/json" -d "{\"name\":\"Pen\"}"</code></p>
+<h3>11.1 CRUD operations using Express.js</h3>
+<script type="text/plain" data-f="server.js">
+const express = require("express");
+const app = express();
+app.use(express.json());
+
+let items = [{ id: 1, name: "Book" }];
+
+app.get("/items", (req, res) => res.json(items));                       // Read all
+app.get("/items/:id", (req, res) => {                                   // Read one
+  const it = items.find(i => i.id == req.params.id);
+  it ? res.json(it) : res.status(404).send("Not found");
+});
+app.post("/items", (req, res) => {                                      // Create
+  const it = { id: items.length + 1, name: req.body.name };
+  items.push(it); res.status(201).json(it);
+});
+app.put("/items/:id", (req, res) => {                                   // Update
+  const it = items.find(i => i.id == req.params.id);
+  if (!it) return res.status(404).send("Not found");
+  it.name = req.body.name; res.json(it);
+});
+app.delete("/items/:id", (req, res) => {                                // Delete
+  items = items.filter(i => i.id != req.params.id);
+  res.send("Deleted");
+});
+
+app.listen(3000, () => console.log("CRUD API on port 3000"));
+</script>
+<h3>11.2 Connect API and database using the MySQL driver</h3>
+<p class="note">First run the SQL from Experiment 12 (create database <code>college</code> and table <code>students</code>). Change the password below.</p>
+<script type="text/plain" data-f="server.js">
+const express = require("express");
+const mysql = require("mysql2");
+const app = express();
+app.use(express.json());
+
+const db = mysql.createConnection({
+  host: "localhost", user: "root", password: "your_password", database: "college"
+});
+db.connect(err => {
+  if (err) return console.error("DB connection failed:", err.message);
+  console.log("Connected to MySQL");
+});
+
+app.get("/students", (req, res) => {
+  db.query("SELECT * FROM students", (err, rows) => err ? res.status(500).send(err.message) : res.json(rows));
+});
+app.post("/students", (req, res) => {
+  const { name, age } = req.body;
+  db.query("INSERT INTO students (name, age) VALUES (?, ?)", [name, age],
+    (err, r) => err ? res.status(500).send(err.message) : res.status(201).json({ id: r.insertId, name, age }));
+});
+app.put("/students/:id", (req, res) => {
+  db.query("UPDATE students SET name=?, age=? WHERE id=?", [req.body.name, req.body.age, req.params.id],
+    err => err ? res.status(500).send(err.message) : res.send("Updated"));
+});
+app.delete("/students/:id", (req, res) => {
+  db.query("DELETE FROM students WHERE id=?", [req.params.id],
+    err => err ? res.status(500).send(err.message) : res.send("Deleted"));
+});
+
+app.listen(3000, () => console.log("Server on port 3000"));
+</script>
+
+<h2 id="e12">Experiment 12: MySQL (database, tables, queries)</h2>
+<p class="run"><b>Run:</b> <code>mysql -u root -p</code> then paste the commands. Or from a file: <code>mysql -u root -p &lt; exp12.sql</code></p>
+<h3>12.1 Create a database and a table</h3>
+<script type="text/plain" data-f="MySQL command line client">
+CREATE DATABASE college;
+SHOW DATABASES;
+USE college;
+CREATE TABLE students (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  age INT,
+  dept VARCHAR(30)
+);
+SHOW TABLES;
+DESCRIBE students;
+</script>
+<h3>12.2 Create table, insert data and update data</h3>
+<script type="text/plain" data-f="MySQL command line client">
+CREATE TABLE IF NOT EXISTS courses (
+  cid INT PRIMARY KEY,
+  cname VARCHAR(50),
+  credits INT
+);
+INSERT INTO students (name, age, dept) VALUES
+  ('Asha', 20, 'CSE'), ('Ravi', 21, 'ECE'), ('Meena', 22, 'CSE');
+INSERT INTO courses VALUES (1, 'Full Stack', 4), (2, 'DBMS', 3);
+SELECT * FROM students;
+UPDATE students SET age = 23 WHERE name = 'Ravi';
+SELECT * FROM students;
+</script>
+
+<h2 id="e13">Experiment 13: MySQL (subqueries and Workbench)</h2>
+<p class="run"><b>Run (13.1):</b> <code>mysql -u root -p college</code> then paste the queries.<br>
+<b>Run (13.2):</b> open MySQL Workbench, connect to Local instance, File, New Query Tab, paste the script, save with Ctrl+S as <code>script.sql</code>, run with the lightning icon (Ctrl+Enter).</p>
+<h3>13.1 Subqueries</h3>
+<script type="text/plain" data-f="MySQL command line client">
+-- Students older than the average age
+SELECT name, age FROM students
+WHERE age > (SELECT AVG(age) FROM students);
+
+-- Students in the same department as 'Asha'
+SELECT name FROM students
+WHERE dept = (SELECT dept FROM students WHERE name = 'Asha');
+
+-- Using IN
+SELECT name FROM students
+WHERE dept IN (SELECT dept FROM students GROUP BY dept HAVING COUNT(*) > 1);
+
+-- Student with maximum age
+SELECT name FROM students WHERE age = (SELECT MAX(age) FROM students);
+</script>
+<h3>13.2 Script file in MySQL Workbench</h3>
+<script type="text/plain" data-f="script.sql">
+CREATE DATABASE IF NOT EXISTS college;
+USE college;
+CREATE TABLE IF NOT EXISTS employees (
+  eid INT AUTO_INCREMENT PRIMARY KEY,
+  ename VARCHAR(50),
+  salary DECIMAL(10,2)
+);
+INSERT INTO employees (ename, salary) VALUES ('Kiran', 40000), ('Sita', 55000), ('Arun', 30000);
+SELECT * FROM employees WHERE salary > (SELECT AVG(salary) FROM employees);
+</script>
+
+<h2 id="e14">Experiment 14: Integrating the database into the API</h2>
+<p class="run"><b>Project layout:</b> <code>project/db/init.sql</code>, <code>project/db/connection.js</code>, <code>project/server.js</code><br>
+<b>Run:</b> <code>mysql -u root -p &lt; db/init.sql</code> then <code>npm install express mysql2</code> then <code>node server.js</code></p>
+<h3>14.1 Create database directory and initialise the .sql file</h3>
+<script type="text/plain" data-f="db/init.sql">
+CREATE DATABASE IF NOT EXISTS appdb;
+USE appdb;
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  email VARCHAR(80) UNIQUE
+);
+INSERT INTO users (name, email) VALUES ('Asha', 'asha@example.com');
+</script>
+<script type="text/plain" data-f="db/connection.js">
+const mysql = require("mysql2");
+const pool = mysql.createPool({
+  host: "localhost", user: "root", password: "your_password", database: "appdb"
+});
+module.exports = pool;
+</script>
+<script type="text/plain" data-f="server.js">
+const express = require("express");
+const db = require("./db/connection");
+const app = express();
+app.use(express.json());
+
+app.get("/users", (req, res) => {
+  db.query("SELECT * FROM users", (err, rows) => err ? res.status(500).send(err.message) : res.json(rows));
+});
+app.post("/users", (req, res) => {
+  db.query("INSERT INTO users (name, email) VALUES (?, ?)", [req.body.name, req.body.email],
+    err => err ? res.status(500).send(err.message) : res.status(201).send("User added"));
+});
+
+app.listen(3000, () => console.log("API running on port 3000"));
+</script>
+
+<h2 id="e15">Experiment 15: Team collaboration using GitHub</h2>
+<p class="run"><b>Steps:</b> Form a group of 2 to 3. One member creates the repo and adds the others under Settings, Collaborators. Everyone clones and works on their own branch.</p>
+<h3>15.1 to 15.3 Shared repo and branch workflow</h3>
+<script type="text/plain" data-f="Git Bash / Terminal (each member)">
+git clone https://github.com/<owner>/team-project.git
+cd team-project
+git checkout -b feature/member1-login     # one branch per task
+# ...write code...
+git add .
+git commit -m "Add login page"
+git push -u origin feature/member1-login
+git pull origin main                      # keep in sync before merging
+</script>
+<h3>15.4 Issues, Pull Requests, Code Reviews and README</h3>
+<script type="text/plain" data-f="GitHub GUI steps">
+Issues:       Repo, Issues, New issue. Write the task, assign a member, add a label.
+Pull Request: Push the branch, click "Compare & pull request", write "Closes #1" in the description.
+Code Review:  A teammate opens the PR, Files changed, adds line comments, then Review changes,
+              Approve (or Request changes).
+Merge:        After approval click "Merge pull request". Then: git checkout main && git pull
+</script>
+<script type="text/plain" data-f="README.md">
+# Project Title
+Short description of the project.
+
+## Team Members
+- Member 1 (Frontend)
+- Member 2 (Backend)
+- Member 3 (Database)
+
+## Tech Stack
+React, Node.js, Express, MySQL
+
+## Setup
+1. git clone https://github.com/<owner>/team-project.git
+2. npm install
+3. npm start
+
+## Contribution Workflow
+Create a branch, open a Pull Request, get one review, then merge.
+</script>
+
+<script>
+(function(){
+  const chk=document.getElementById("gchk"),gb=document.getElementById("gbtn");
+  chk.onchange=()=>gb.disabled=!chk.checked;
+  gb.onclick=()=>document.getElementById("gate").remove();
+  const I={
+  "1.1":["Links an external JavaScript file to an HTML page using the script tag. The script runs and changes the page heading to prove it is connected.","Add <script src=\"script.js\"> at the end of the body.","Run console.log and update the heading text from script.js."],
+  "1.2":["Selects HTML elements using id, class, tag and query selectors. The selected elements are then printed and styled.","Pick elements with getElementById, getElementsByClassName, querySelector and querySelectorAll.","Loop over the selected list and change each element's style."],
+  "1.3":["Attaches event listeners to a button and to the document. The page reacts to click, mouse and keyboard events.","Get the element and call addEventListener with an event name and a handler.","Run the handler (alert, colour change or key log) when the event fires."],
+  "2.1":["Handles button clicks in two ways: an inline onclick attribute and addEventListener. Each shows a message in a paragraph.","Create buttons and a paragraph to show output.","On click, call the handler and write the message into the paragraph."],
+  "2.2":["Demonstrates function declaration, function expression and arrow function. Each one is called and its result is printed.","Define the three kinds of functions (add, multiply, square).","Call each function with sample values and log the results."],
+  "3.1":["Builds a counter button using a React class component. The count is stored in this.state.","Initialise state { count: 0 } in the constructor.","On click call setState to add 1 and re-render."],
+  "3.2":["Builds the same counter using a functional component. The count is stored with the useState hook.","Declare const [count, setCount] = useState(0).","On click call setCount(count + 1) to update the display."],
+  "4.1":["Handles a button click event inside a functional component. An alert confirms that the handler ran.","Define the handleClick function inside the component.","Pass it to the button using onClick={handleClick}."],
+  "4.2":["Renders a different component depending on a true/false state. A button toggles between login and logout views.","Keep a loggedIn state and create Welcome and Login components.","Use a ternary operator to render one of them and flip the state on click."],
+  "4.3":["Displays text using template (string) literals with backticks. Variables and expressions are placed inside ${ }.","Declare variables such as name and age.","Build the sentence with `Hello ${name}` and render it in JSX."],
+  "5.1":["Implements a counter with the useState hook. Buttons increase, decrease and reset the value.","Create state count with initial value 0.","Update it with setCount in each button's onClick."],
+  "5.2":["Fetches user data from a public API using useEffect when the component loads. The users are then shown as a list.","Call fetch inside useEffect with an empty [] dependency array, convert to JSON and store in state.","Show Loading while waiting, then map the data into list items."],
+  "6.1":["Passes data from a parent component to child components through props. The child displays the values it receives.","Parent renders <Child name=... course=... />.","Child reads the props and displays them."],
+  "6.2":["Creates a controlled form where React state holds the input values. On submit the entered data is displayed.","Store form values in state and update them in onChange.","On submit call preventDefault and save the data to show it."],
+  "6.3":["Renders a list of items using the map() function. Each item becomes a list element with a unique key.","Create an array of values.","Use array.map() to return an <li key=...> for every element."],
+  "7.1":["Checks the Git installation and sets the user name and email. These details are attached to every commit.","Run git --version to verify the install.","Run git config --global user.name and user.email."],
+  "7.2":["Creates a local repository and pushes it to a GitHub remote. This is the basic init, add, commit, push workflow.","Run git init, git add . and git commit -m \"Initial commit\".","Add the remote with git remote add origin and run git push -u origin main."],
+  "8.1":["Creates a feature branch, commits work on it and merges it back into main. This shows isolated development.","Create the branch with git checkout -b feature1 and commit changes.","Switch to main and run git merge feature1."],
+  "8.3":["Creates a conflict by editing the same line on two branches. The conflict is then resolved by hand.","Change the same line in main and feature2, then run git merge.","Edit the file to remove the conflict markers, then git add and git commit."],
+  "9.1":["Creates a React app, uploads it to GitHub and ignores node_modules. Two feature branches are created and pushed.","Create the app, run git init, commit and push to origin main.","Confirm node_modules is in .gitignore and create feature/navbar and feature/form."],
+  "9.5":["Practises merging feature branches through pull requests on the GitHub website. Main is then updated locally.","Push the feature branch and click Compare & pull request.","Merge the pull request on GitHub, then run git pull origin main."],
+  "10.1":["Creates a basic Express server with one route. The browser shows Hello World at the home page.","Import express and define app.get(\"/\") that sends the text.","Start the server with app.listen(3000) and open localhost:3000."],
+  "10.2":["Builds a small website with Home, About and Contact routes. Unknown URLs return a 404 page.","Define one app.get() route for each page.","Add a final app.use() handler to return 404 for other paths."],
+  "10.3":["Sends a page that contains a script so Hello World appears in the browser console. The server only sends the HTML.","Respond to \"/\" with HTML containing console.log('Hello World').","Open the page and press F12 to see the message in the console."],
+  "11.1":["Implements Create, Read, Update and Delete using Express with an in-memory array. Each operation uses a different HTTP method.","Add express.json() and an items array.","Define POST, GET, PUT and DELETE routes that change or return the array."],
+  "11.2":["Connects the Express API to MySQL with the mysql2 driver. Routes run SQL queries on the students table.","Create the connection with host, user, password and database, then call connect().","Run db.query() with ? placeholders inside each route and return the result as JSON."],
+  "12.1":["Creates a database and a table using the MySQL command line client. SHOW and DESCRIBE verify the result.","Run CREATE DATABASE and USE.","Run CREATE TABLE, then SHOW TABLES and DESCRIBE."],
+  "12.2":["Creates another table, inserts rows and updates a row. SELECT is used to check the data.","Run CREATE TABLE and INSERT INTO to add rows.","Run UPDATE ... WHERE and SELECT * to confirm."],
+  "13.1":["Writes subqueries, which are queries inside another query. They filter rows using results such as average or maximum.","Write the inner SELECT that returns a value or a set of values.","Use it in the outer WHERE with comparison operators or IN."],
+  "13.2":["Creates a reusable SQL script file in MySQL Workbench. The script builds a table and runs a subquery.","Open a new query tab, paste the SQL and save it as script.sql.","Execute it with the lightning icon and check the result grid."],
+  "14.1":["Creates a db folder holding an init.sql file and a connection module. The API then uses the database through that module.","Write db/init.sql, run it in MySQL and export a pool from db/connection.js.","Require the pool in server.js and query the users table in the routes."],
+  "15.1":["A group of 2 to 3 students shares one GitHub repository. Each member works on a separate branch for an assigned task.","Clone the shared repo and create a personal feature branch.","Commit, push the branch and pull main regularly."],
+  "15.4":["Uses GitHub Issues, Pull Requests and Code Reviews to manage teamwork. A README.md documents the project.","Create issues, assign members and open pull requests that link them.","A teammate reviews and approves, then merge and update README.md."]};
+  document.querySelectorAll("h3").forEach(h=>{
+    const m=h.textContent.match(/^\d+\.\d+/);if(!m||!I[m[0]])return;
+    const [d,a,b]=I[m[0]],x=document.createElement("div");x.className="info";
+    const p=document.createElement("p"),t=document.createElement("b");
+    t.textContent="Description: ";p.append(t,d);
+    const q=document.createElement("p"),u=document.createElement("b");
+    u.textContent="Algorithm:";q.append(u);
+    const ol=document.createElement("ol");
+    [a,b].forEach(s=>{const li=document.createElement("li");li.textContent=s;ol.append(li)});
+    x.append(p,q,ol);h.after(x);
+  });
+  const nav=document.getElementById("nav");
+  document.querySelectorAll("h2[id]").forEach(h=>{
+    const a=document.createElement("a");a.href="#"+h.id;a.dataset.id=h.id;a.textContent="Exp "+h.id.slice(1);nav.appendChild(a);
+  });
+  document.querySelectorAll('script[type="text/plain"]').forEach(s=>{
+    const code=s.textContent.replace(/^\n/,"").replace(/\s+$/,"").replace(/<\\\/script>/g,"</scr"+"ipt>");
+    const b=document.createElement("div");b.className="blk";
+    const hd=document.createElement("div");hd.className="hd";
+    const n=document.createElement("span");n.textContent=s.dataset.f;
+    const btn=document.createElement("button");btn.textContent="Copy";
+    btn.onclick=()=>{
+      const done=()=>{btn.textContent="Copied";setTimeout(()=>btn.textContent="Copy",1200)};
+      try{navigator.clipboard.writeText(code).then(done,done)}catch(e){done()}
+    };
+    hd.append(n,btn);
+    const pre=document.createElement("pre");pre.textContent=code;
+    b.append(hd,pre);s.after(b);
+  });
+  const secs={};
+  document.querySelectorAll("h2[id]").forEach(h=>{
+    const s=document.createElement("section");s.className="exp";s.id="sec-"+h.id;
+    h.before(s);let e=h;
+    while(e&&!(e!==h&&e.tagName==="H2")&&!(e.tagName==="SCRIPT"&&e.type!=="text/plain")){const n=e.nextElementSibling;s.append(e);e=n}
+    secs[h.id]=s;
+  });
+  const hint=document.createElement("p");hint.className="note";
+  hint.textContent="Tap an experiment button above to see its programs.";
+  nav.after(hint);
+  nav.querySelectorAll("a").forEach(a=>{
+    a.onclick=ev=>{
+      ev.preventDefault();
+      const id=a.dataset.id;
+      Object.keys(secs).forEach(k=>secs[k].classList.toggle("on",k===id));
+      nav.querySelectorAll("a").forEach(x=>x.classList.toggle("on",x===a));
+      hint.style.display="none";
+      window.scrollTo({top:nav.offsetTop-8,behavior:"smooth"});
+    };
+  });
+})();
+</script>
+</body>
+</html>
